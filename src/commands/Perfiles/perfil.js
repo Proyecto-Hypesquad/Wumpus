@@ -19,6 +19,7 @@ module.exports = class extends Command {
 
 		this.template = null;
 		this.potion = null;
+		this.clans = { balance: null, brillantez: null, bravura: null, null: null };
 	}
 
 	async run(message, [user = message.author]) {
@@ -28,8 +29,8 @@ module.exports = class extends Command {
 	}
 
 	generate(user, image) {
-		const { coins, victories, defeats, reputation, experience } = user.settings;
-		return new Canvas(624, 372)
+		const { coins, victories, defeats, reputation, experience, clan } = user.settings;
+		const canvas = new Canvas(624, 372)
 			.addImage(this.template, 0, 0, 624, 372)
 			.addImage(image, 60, 59, 103, 103, { radius: 103 / 2, type: 'round', restore: true })
 
@@ -67,17 +68,23 @@ module.exports = class extends Command {
 			.setShadowOffsetX(0)
 			.setTextFont('20px whitney-booksc')
 			.addText(`exp: ${experience}/1000`, 423, 339)
-			.addImage(this.potion, 246, 300, 53, 55)
+			.addImage(this.potion, 246, 300, 53, 55);
 
-			// Render
-			.toBufferAsync();
+		// Add canvas image
+		if (clan) canvas.addImage(this.clans[clan], 237, 21, 375, 26);
+
+		// Render
+		return canvas.toBufferAsync();
 	}
 
 	async init() {
 		const { readFile } = require('fs-nextra');
-		[this.template, this.potion] = await Promise.all([
+		[this.template, this.potion, this.clans.balance, this.clans.brillantez, this.clans.bravura] = await Promise.all([
 			readFile(join(ASSETS, 'images', 'background-perfil.png')),
-			readFile(join(ASSETS, 'images', 'potion.png'))
+			readFile(join(ASSETS, 'images', 'potion.png')),
+			readFile(join(ASSETS, 'images', 'balance.png')),
+			readFile(join(ASSETS, 'images', 'brillantez.png')),
+			readFile(join(ASSETS, 'images', 'bravura.png'))
 		]);
 	}
 
