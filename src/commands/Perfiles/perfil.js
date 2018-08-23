@@ -39,7 +39,7 @@ module.exports = class extends Command {
 			.setShadowColor('#FFFFFF')
 			.setShadowOffsetX(1)
 			.setTextFont('24px whitney-medium')
-			.addText(user.tag, 112, 187)
+			.addResponsiveText(user.tag, 112, 187, 200)
 			.setTextFont('19px whitney-blacksc')
 			.addText('MAGO PRINCIPIANTE', 112, 225)
 			.setTextFont('19px whitney-medium')
