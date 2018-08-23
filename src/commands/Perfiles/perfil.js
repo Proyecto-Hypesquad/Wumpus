@@ -2,11 +2,29 @@ const { Command } = require('klasa');
 const { Canvas } = require('canvas-constructor');
 const fetch = require('node-fetch');
 
+const CLASSES = {
+	mago: [
+		[0, 'MAGO TORPE'],
+		[10, 'MAGO PRINCIPIANTE'],
+		[20, 'MAGO PROMEDIO'],
+		[30, 'MAGO HÁBIL'],
+		[40, 'MAGO EXPERTO'],
+		[50, 'MAGO LEGENDARIO']
+	],
+	caballero: [
+		[0, 'CABALLERO TORPE'],
+		[10, 'CABALLERO PRINCIPIANTE'],
+		[20, 'CABALLERO PROMEDIO'],
+		[30, 'CABALLERO HÁBIL'],
+		[40, 'CABALLERO EXPERTO'],
+		[50, 'CABALLERO LEGENDARIO']
+	]
+};
+
 module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
-			runIn: ['text', 'dm', 'group'],
 			requiredPermissions: ['ATTACH_FILES'],
 			cooldown: 10,
 			description: language => language.get('COMMANDS_PERFIL_DESCRIPTION'),
@@ -26,7 +44,12 @@ module.exports = class extends Command {
 	}
 
 	generate(user, image) {
-		const { coins, victories, defeats, reputation, experience, clan } = user.settings;
+		const { class: classname, coins, victories, defeats, reputation, experience, clan, level } = user.settings;
+
+		const previousLevel = Math.floor((level / 0.2) ** 2);
+		const nextLevel = Math.floor(((level + 1) / 0.2) ** 2);
+		const progressBar = Math.round(((experience - previousLevel) / (nextLevel - previousLevel)) * 326);
+
 		const canvas = new Canvas(624, 372)
 			.addImage(this.template, 0, 0, 624, 372)
 			.addImage(image, 60, 59, 103, 103, { radius: 103 / 2, type: 'round', restore: true })
@@ -38,9 +61,9 @@ module.exports = class extends Command {
 			.setTextFont('24px whitney-medium')
 			.addResponsiveText(user.tag, 112, 187, 200)
 			.setTextFont('19px whitney-blacksc')
-			.addText('MAGO PRINCIPIANTE', 112, 225)
+			.addText(this.findLevel(classname, level), 112, 225)
 			.setTextFont('19px whitney-medium')
-			.addText('NIVEL 1', 112, 262)
+			.addText(`NIVEL ${level}`, 112, 262)
 			.setShadowOffsetX(0)
 
 			// Right deck
@@ -52,7 +75,7 @@ module.exports = class extends Command {
 
 			// Progress bar
 			.save()
-			.createBeveledPath(262, 328, 326, 13, 8)
+			.createBeveledPath(262, 328, progressBar, 13, 8)
 			.setColor('#44b674')
 			.fill()
 			.restore()
@@ -64,7 +87,7 @@ module.exports = class extends Command {
 			.addText(`REP+${reputation}`, 423, 312)
 			.setShadowOffsetX(0)
 			.setTextFont('20px whitney-booksc')
-			.addText(`exp: ${experience}/1000`, 423, 339)
+			.addText(`exp: ${experience}/${nextLevel}`, 423, 339)
 			.addImage(this.potion, 246, 300, 53, 55);
 
 		// Add canvas image
@@ -72,6 +95,15 @@ module.exports = class extends Command {
 
 		// Render
 		return canvas.toBufferAsync();
+	}
+
+	findLevel(classname, level) {
+		if (!classname) return '';
+		const assets = CLASSES[classname];
+		for (const [lvl, name] of assets)
+			if (level >= lvl) return name;
+
+		return '';
 	}
 
 	async init() {

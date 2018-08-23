@@ -17,7 +17,7 @@ module.exports = class extends Monitor {
 		const level = Math.floor(0.2 * Math.sqrt(experience));
 		await message.author.settings.update([['experience', experience], ['level', level]]);
 
-		if (level !== previousLevel && level % 10)
+		if ((level !== previousLevel) && ((level % 10) === 0))
 			this.generate(message.author).then(attachment => message.channel.sendFile(attachment, 'levelup.png', message.author.toString()));
 	}
 
