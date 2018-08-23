@@ -1,14 +1,14 @@
 {
   "name": "wumpus",
   "version": "1.0.0",
-  "description": "",
+  "description": "Un bot para las comunidades hispanohablantes de las casas de HypeSquad",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "MIT",
+  "author": "SeaOfThievesES",
+  "license": "UNLICENSED",
   "dependencies": {
     "canvas": "Automattic/node-canvas#92b192447e9b9ae98da0f801e4e34afdd1dc1ef8",
     "canvas-constructor": "^1.0.1",
