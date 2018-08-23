@@ -16,6 +16,7 @@ KlasaClient.defaultUserSchema
 	.add('defeats', 'Integer', { configurable: false, default: 0 })
 	.add('reputation', 'Integer', { configurable: false, default: 0 })
 	.add('experience', 'Integer', { configurable: false, default: 0 })
+	.add('level', 'Integer', { configurable: false, default: 0 })
 	.add('clan', 'string', { configurable: false });
 
 new KlasaClient({ prefix: '+', language: 'es-ES', ownerID: '242043489611808769' })

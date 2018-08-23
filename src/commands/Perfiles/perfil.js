@@ -1,9 +1,6 @@
 const { Command } = require('klasa');
 const { Canvas } = require('canvas-constructor');
 const fetch = require('node-fetch');
-const { join } = require('path');
-
-const ASSETS = join(__dirname, '..', '..', '..', 'assets');
 
 module.exports = class extends Command {
 
@@ -79,6 +76,9 @@ module.exports = class extends Command {
 
 	async init() {
 		const { readFile } = require('fs-nextra');
+		const { join } = require('path');
+
+		const ASSETS = join(__dirname, '..', '..', '..', 'assets');
 		[this.template, this.potion, this.clans.balance, this.clans.brillantez, this.clans.bravura] = await Promise.all([
 			readFile(join(ASSETS, 'images', 'background-perfil.png')),
 			readFile(join(ASSETS, 'images', 'potion.png')),
