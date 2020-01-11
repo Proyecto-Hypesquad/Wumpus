@@ -1,7 +1,7 @@
 import { codeBlock, toTitleCase } from '@klasa/utils';
 import { LanguageHelp } from '../utils/LanguageHelp';
 import friendlyDuration from '../utils/FriendlyDuration';
-import { Language, version as klasaVersion, LanguageStore, KlasaClient } from 'klasa';
+import { Language, version as klasaVersion, LanguageStore } from 'klasa';
 
 export const enum Emojis {
 	GreenTick = '<:greenTick:637706251253317669>',
@@ -90,8 +90,8 @@ function duration(time: number, precision?: number) {
 
 export default class extends Language {
 
-	public constructor(client: KlasaClient, store: LanguageStore, file: string[], dir: string) {
-		super(client, store, file, dir);
+	public constructor(store: LanguageStore, file: string[], dir: string) {
+		super(store, file, dir);
 		this.language = {
 			DEFAULT: key => `La clave ${key} aún no ha sido traducida a es-ES.`,
 			DEFAULT_LANGUAGE: 'Lenguaje Predeterminado',

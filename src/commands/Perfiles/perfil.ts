@@ -1,5 +1,5 @@
 import { WumpusCommand } from '../../utils/WumpusCommand';
-import { CommandStore, KlasaMessage, KlasaClient, KlasaUser } from 'klasa';
+import { CommandStore, KlasaMessage, KlasaUser } from 'klasa';
 import { Canvas, BufferOrImage } from 'canvas-constructor';
 import fetch from 'node-fetch';
 import { readFile } from 'fs-nextra';
@@ -30,8 +30,8 @@ export default class extends WumpusCommand {
 	public potion: Buffer;
 	public clans: any;
 
-	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
-		super(client, store, file, directory, {
+	public constructor(store: CommandStore, file: string[], directory: string) {
+		super(store, file, directory, {
 			requiredPermissions: ['ATTACH_FILES'],
 			cooldown: 5,
 			description: language => language.get('COMMANDS_PERFIL_DESCRIPTION'),

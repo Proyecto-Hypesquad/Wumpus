@@ -1,11 +1,11 @@
 import { MessageEmbed, TextChannel } from 'discord.js';
-import { Event, EventStore, KlasaClient } from 'klasa';
+import { Event, EventStore } from 'klasa';
 import { WSGuildMemberAdd } from '../utils/DiscordAPI';
 
 export default class extends Event {
 
-	public constructor(client: KlasaClient, store: EventStore, file: string[], directory: string) {
-		super(client, store, file, directory, { name: 'GUILD_MEMBER_ADD', emitter: store.client.ws });
+	public constructor(store: EventStore, file: string[], directory: string) {
+		super(store, file, directory, { name: 'GUILD_MEMBER_ADD', emitter: store.client.ws });
 	}
 
 	public async run(data: WSGuildMemberAdd) {

@@ -1,13 +1,13 @@
 import { WumpusCommand } from '../../utils/WumpusCommand';
 import { MessageEmbed } from 'discord.js';
-import { CommandStore, KlasaMessage, KlasaClient } from 'klasa';
+import { CommandStore, KlasaMessage } from 'klasa';
 
 export default class extends WumpusCommand {
 
 	public embeds: any;
 
-	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
-		super(client, store, file, directory, {
+	public constructor(store: CommandStore, file: string[], directory: string) {
+		super(store, file, directory, {
 			cooldown: 5,
 			description: language => language.get('COMMAND_CLASE_DESCRIPTION'),
 			extendedHelp: language => language.get('COMMAND_CLASE_EXTENDED'),

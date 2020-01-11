@@ -1,13 +1,13 @@
 import { PermissionResolvable, Permissions } from 'discord.js';
-import { Command, CommandOptions, CommandStore, KlasaMessage, KlasaClient, util } from 'klasa';
+import { Command, CommandOptions, CommandStore, KlasaMessage, util } from 'klasa';
 
 export abstract class WumpusCommand extends Command {
 
 	public spam: boolean;
 	public requiredGuildPermissions: Permissions;
 
-	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string, options: WumpusCommandOptions = {}) {
-		super(client, store, file, directory, util.mergeDefault({ spam: false, requiredGuildPermissions: 0 }, options));
+	public constructor(store: CommandStore, file: string[], directory: string, options: WumpusCommandOptions = {}) {
+		super(store, file, directory, util.mergeDefault({ spam: false, requiredGuildPermissions: 0 }, options));
 		this.spam = options.spam!;
 		this.requiredGuildPermissions = new Permissions(options.requiredGuildPermissions);
 	}

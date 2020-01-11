@@ -1,4 +1,4 @@
-import { KlasaMessage, Monitor, KlasaClient, MonitorStore, KlasaUser } from 'klasa';
+import { KlasaMessage, Monitor, MonitorStore, KlasaUser } from 'klasa';
 import { Canvas } from 'canvas-constructor';
 import { readFile } from 'fs-nextra';
 import { join } from 'path';
@@ -8,8 +8,8 @@ export default class ExprienceMonitor extends Monitor {
 	public cooldowns: Set<string>;
 	public template: Buffer;
 
-	public constructor(client: KlasaClient, store: MonitorStore, file: string[], directory: string) {
-		super(client, store, file, directory, { ignoreOthers: false, ignoreSelf: true });
+	public constructor(store: MonitorStore, file: string[], directory: string) {
+		super(store, file, directory, { ignoreOthers: false, ignoreSelf: true });
 		this.cooldowns = new Set();
 		this.template = Buffer.alloc(0);
 	}
