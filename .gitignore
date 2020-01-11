@@ -1,6 +1,7 @@
 node_modules
-config.js
-src/bwd
+config.ts
+dist
+.vscode
 
 # Package locks
 yarn.lock

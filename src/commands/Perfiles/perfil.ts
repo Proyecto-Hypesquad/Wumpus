@@ -1,8 +1,11 @@
-const { Command } = require('klasa');
-const { Canvas } = require('canvas-constructor');
-const fetch = require('node-fetch');
+import { WumpusCommand } from '../../utils/WumpusCommand';
+import { CommandStore, KlasaMessage, KlasaClient, KlasaUser } from 'klasa';
+import { Canvas, BufferOrImage } from 'canvas-constructor';
+import fetch from 'node-fetch';
+import { readFile } from 'fs-nextra';
+import { join } from 'path';
 
-const CLASSES = {
+const CLASSES: any = {
 	mago: [
 		[0, 'MAGO TORPE'],
 		[10, 'MAGO PRINCIPIANTE'],
@@ -21,30 +24,34 @@ const CLASSES = {
 	]
 };
 
-module.exports = class extends Command {
+export default class extends WumpusCommand {
 
-	constructor(...args) {
-		super(...args, {
+	public template: Buffer;
+	public potion: Buffer;
+	public clans: any;
+
+	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
+		super(client, store, file, directory, {
 			requiredPermissions: ['ATTACH_FILES'],
-			cooldown: 10,
+			cooldown: 5,
 			description: language => language.get('COMMANDS_PERFIL_DESCRIPTION'),
 			extendedHelp: language => language.get('COMMANDS_PERFIL_EXTENDED'),
 			usage: '[usuario:user]'
 		});
-
-		this.template = null;
-		this.potion = null;
-		this.clans = { balance: null, brillantez: null, bravura: null, null: null };
+		this.template = Buffer.alloc(0);
+		this.potion = Buffer.alloc(0);
+		this.clans = { 'balance': null, 'brillantez': null, 'bravura': null, 'null': null };
 	}
 
-	async run(message, [user = message.author]) {
-		const image = await fetch(user.displayAvatarURL({ format: 'png', size: 128 })).then(result => result.buffer());
-		await user.settings.sync(false);
-		return this.generate(user, image).then(attachment => message.channel.sendFile(attachment, 'profile.png'));
-	}
-
-	generate(user, image) {
-		const { class: classname, coins, victories, defeats, reputation, experience, clan, level } = user.settings;
+	public generate(user: KlasaUser, image: BufferOrImage) {
+		const classname = (user.settings.get('class') as string);
+		const coins = (user.settings.get('coins') as number);
+		const victories = (user.settings.get('victories') as number);
+		const defeats = (user.settings.get('defeats') as number);
+		const reputation = (user.settings.get('reputation') as number);
+		const experience = (user.settings.get('experience') as number);
+		const clan = (user.settings.get('clan') as string);
+		const level = (user.settings.get('level') as number);
 
 		const previousLevel = Math.floor((level / 0.2) ** 2);
 		const nextLevel = Math.floor(((level + 1) / 0.2) ** 2);
@@ -97,20 +104,27 @@ module.exports = class extends Command {
 		return canvas.toBufferAsync();
 	}
 
-	findLevel(classname, level) {
+	public findLevel(classname: string, level: number) {
 		if (!classname) return '';
 		const assets = CLASSES[classname];
-		for (const [lvl, name] of assets)
+		for (const [lvl, name] of assets) {
 			if (level >= lvl) return name;
+		}
 
 		return '';
 	}
 
-	async init() {
-		const { readFile } = require('fs-nextra');
-		const { join } = require('path');
+	public async run(message: KlasaMessage, [user]: [KlasaUser]) {
+		if (!user) {
+			user = message.author;
+		}
+		const image = await fetch(user.displayAvatarURL({ format: 'png', size: 128 })).then(result => result.buffer());
+		await user.settings.sync(false);
+		return this.generate(user, image).then(attachment => message.channel.sendFile(attachment, 'profile.png'));
+	}
 
-		const ASSETS = join(__dirname, '..', '..', '..', 'assets');
+	public async init() {
+		const ASSETS = join(__dirname, '..', '..', '..', '..', 'assets');
 		[this.template, this.potion, this.clans.balance, this.clans.brillantez, this.clans.bravura] = await Promise.all([
 			readFile(join(ASSETS, 'images', 'background-perfil.png')),
 			readFile(join(ASSETS, 'images', 'potion.png')),
@@ -120,4 +134,5 @@ module.exports = class extends Command {
 		]);
 	}
 
-};
+}
+
