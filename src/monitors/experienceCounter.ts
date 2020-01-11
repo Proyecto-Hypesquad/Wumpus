@@ -17,12 +17,17 @@ export default class ExprienceMonitor extends Monitor {
 	public async run(message: KlasaMessage) {
 		if (!message.guild || this.cooldown(message) || !message.author.settings.get('class')) return;
 
+		const prefix = message.guildSettings.get('prefix');
+		if (prefix) {
+			for (const prf of Array.isArray(prefix) ? prefix : [prefix]) {
+				if (prf.regex.test(message)) return;
+			}
+		}
+
 		const previousLevel = (message.author.settings.get('level') as number);
 		const experience = (message.author.settings.get('experience') as number) + Math.round((Math.random() * 4) + 4);
 		const level = Math.floor(0.2 * Math.sqrt(experience));
 		await message.author.settings.update([['experience', experience], ['level', level]]);
-
-		console.log(`${previousLevel} ${experience} ${level}`);
 
 		if ((level !== previousLevel)) {
 			this.generate(message.author).then(attachment => message.channel.sendFile(attachment, 'levelup.png', message.author.toString())).catch(() => {});
