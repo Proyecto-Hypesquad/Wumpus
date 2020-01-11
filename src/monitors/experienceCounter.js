@@ -10,14 +10,14 @@ module.exports = class extends Monitor {
 	}
 
 	async run(message) {
-		if (!message.guild || this.cooldown(message)) return;
+		if (!message.guild || this.cooldown(message) || !message.author.settings.class) return;
 
-		const previousLevel = message.author.settings.experience;
+		const previousLevel = message.author.settings.level;
 		const experience = message.author.settings.experience + Math.round((Math.random() * 4) + 4);
 		const level = Math.floor(0.2 * Math.sqrt(experience));
 		await message.author.settings.update([['experience', experience], ['level', level]]);
 
-		if ((level !== previousLevel) && ((level % 10) === 0))
+		if ((level !== previousLevel))
 			this.generate(message.author).then(attachment => message.channel.sendFile(attachment, 'levelup.png', message.author.toString()));
 	}
 

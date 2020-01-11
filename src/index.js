@@ -3,11 +3,11 @@ const { Canvas } = require('canvas-constructor');
 const { join } = require('path');
 
 Canvas
-	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'unisans-heavy.otf'), 'unisans-heavy')
-	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'whitney-blacksc.otf'), 'whitney-blacksc')
-	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'whitney-bold.otf'), 'whitney-bold')
-	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'whitney-booksc.otf'), 'whitney-booksc')
-	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'whitney-medium.otf'), 'whitney-medium');
+	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'unisans-heavy.otf'), {family: 'unisans-heavy'})
+	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'whitney-blacksc.otf'), {family: 'whitney-blacksc'})
+	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'whitney-bold.otf'), {family: 'whitney-bold'})
+	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'whitney-booksc.otf'), {family: 'whitney-booksc'})
+	.registerFont(join(__dirname, '..', 'assets', 'fonts', 'whitney-medium.otf'), {family: 'whitney-medium'});
 
 KlasaClient.defaultUserSchema
 	.add('class', 'string', { configurable: false })

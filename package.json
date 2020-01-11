@@ -10,9 +10,12 @@
   "author": "SeaOfThievesES",
   "license": "UNLICENSED",
   "dependencies": {
-    "canvas": "Automattic/node-canvas#92b192447e9b9ae98da0f801e4e34afdd1dc1ef8",
+    "canvas": "Automattic/node-canvas",
     "canvas-constructor": "^1.0.1",
     "discord.js": "discordjs/discord.js",
     "klasa": "dirigeants/klasa"
+  },
+  "devDependencies": {
+    "eslint-config-klasa": "github:dirigeants/klasa-lint"
   }
 }
