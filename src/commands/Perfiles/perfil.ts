@@ -59,7 +59,6 @@ export default class extends WumpusCommand {
 
 		const canvas = new Canvas(624, 372)
 			.addImage(this.template, 0, 0, 624, 372)
-			.addImage(image, 60, 59, 103, 103, { radius: 103 / 2, type: 'round', restore: true })
 
 			// Under avatar
 			.setTextAlign('center')
@@ -95,7 +94,9 @@ export default class extends WumpusCommand {
 			.setShadowOffsetX(0)
 			.setTextFont('20px whitney-booksc')
 			.addText(`exp: ${experience}/${nextLevel}`, 423, 339)
-			.addImage(this.potion, 246, 300, 53, 55);
+			.addImage(this.potion, 246, 300, 53, 55)
+
+			.addImage(image, 60, 59, 103, 103, { radius: 103 / 2, type: 'round', restore: true });
 
 		// Add canvas image
 		if (clan) canvas.addImage(this.clans[clan], 237, 21, 375, 26);
