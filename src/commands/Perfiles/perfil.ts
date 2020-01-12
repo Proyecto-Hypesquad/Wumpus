@@ -119,6 +119,9 @@ export default class extends WumpusCommand {
 		if (!user) {
 			user = message.author;
 		}
+		if (!user.settings.get('class')) {
+			throw message.language.get('COMMAND_PERFIL_NO_CLASS');
+		}
 		const image = await fetch(user.displayAvatarURL({ format: 'png', size: 128 })).then(result => result.buffer());
 		await user.settings.sync(false);
 		return this.generate(user, image).then(attachment => message.channel.sendFile(attachment, 'profile.png'));

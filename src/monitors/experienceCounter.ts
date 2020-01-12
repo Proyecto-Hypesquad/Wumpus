@@ -1,4 +1,4 @@
-import { KlasaMessage, Monitor, MonitorStore, KlasaUser } from 'klasa';
+import { KlasaMessage, Monitor, MonitorStore, KlasaUser, util } from 'klasa';
 import { Canvas } from 'canvas-constructor';
 import { readFile } from 'fs-nextra';
 import { join } from 'path';
@@ -15,14 +15,17 @@ export default class ExprienceMonitor extends Monitor {
 	}
 
 	public async run(message: KlasaMessage) {
-		if (!message.guild || this.cooldown(message) || !message.author.settings.get('class')) return;
+		if (!message.guild || !message.author.settings.get('class')) return;
 
 		const prefix = message.guildSettings.get('prefix');
 		if (prefix) {
 			for (const prf of Array.isArray(prefix) ? prefix : [prefix]) {
-				if (prf.regex.test(message)) return;
+				const regex = RegExp(`^${util.regExpEsc(prf)}`, '');
+				if (regex.test(message.toString())) return;
 			}
 		}
+
+		if (this.cooldown(message)) return;
 
 		const previousLevel = (message.author.settings.get('level') as number);
 		const experience = (message.author.settings.get('experience') as number) + Math.round((Math.random() * 4) + 4);
