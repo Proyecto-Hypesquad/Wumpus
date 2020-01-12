@@ -275,7 +275,8 @@ export default class extends Language {
 
 			COMMAND_CLASE_DESCRIPTION: 'Establece la clase para tu perfil.',
 			COMMAND_CLASE_EXTENDED: '¡Magos y caballeros! ¡Tienes dos bandos a elegir! ¿Cuál eligirás?',
-			COMMAND_CLASE_CHOSEN: '¡Ya perteneces a un bando!'
+			COMMAND_CLASE_CHOSEN: '¡Ya perteneces a un bando!',
+			COMMAND_PERFIL_NO_CLASS: '> <:alerta:482251195709128726> Para poder acceder a todas las funciones, debes elegir primero una clase. Para ello escribe el comando ``+clase <mago/caballero>``.'
 		};
 	}
 
