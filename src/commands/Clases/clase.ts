@@ -1,5 +1,5 @@
 import { WumpusCommand } from '../../utils/WumpusCommand';
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, RoleResolvable } from 'discord.js';
 import { CommandStore, KlasaMessage } from 'klasa';
 
 export default class extends WumpusCommand {
@@ -27,6 +27,8 @@ export default class extends WumpusCommand {
 	public async run(message: KlasaMessage, [type]: [string]) {
 		if (message.author.settings.get('class')) throw message.language.get('COMMAND_CLASE_CHOSEN');
 		await message.author.settings.update('class', type);
+		const role = message.guildSettings.get(`clases.${type}`);
+		message.member?.roles.add(role as RoleResolvable, 'Clase actualizada').catch(() => {});
 		return message.sendEmbed(this.embeds[type]);
 	}
 
