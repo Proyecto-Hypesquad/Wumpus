@@ -26,9 +26,15 @@ export default class extends WumpusCommand {
 		for (const entrytmp of entries) {
 			for (const entry of entrytmp.array) {
 				if (entry.name === hechizo && usuario) {
-					const tempBool = (Math.random() * 100) < entry.mejora;
-					entry.mejora += Math.random() * (0.5 - 0.1);
-					await this.client.queries.updateHechizo(message.author.id, entry.id, entry);
+					const requisito = (entry.dificultad - (40 / 2));
+					const skill = message.author.settings.get('magia') as number;
+					if (skill < requisito) {
+						await message.delete();
+						return message.sendMessage(`> <:denegado:666004380935389194> ${message.member?.nickname ? message.member?.nickname : message.member?.user.username} No tienes el nivel de magia necesario para lanzar este hechizo`);
+					}
+					message.author.settings.set('magia', skill + 0.05);
+					const posibilidad = ((skill - (entry.dificultad - (40 / 2))) / 40);
+					const tempBool = (Math.random() * 100) <= (posibilidad > 100 ? 100 : posibilidad < 0 ? 0 : posibilidad);
 					if (tempBool) {
 						await message.delete();
 						return message.sendMessage(`> <:varita:482166616633901066> ${message.member?.nickname ? message.member?.nickname : message.member?.user.username} le lanzó ${hechizo} a ${usuario.username}`);

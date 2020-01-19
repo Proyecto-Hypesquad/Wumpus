@@ -6,7 +6,7 @@ const test: Hechizo = {
 	id: '1',
 	name: 'test_hechizo',
 	ciclo: 1,
-	mejora: 0
+	dificultad: 20
 };
 
 export class JsonCommonQuery implements CommonQuery {

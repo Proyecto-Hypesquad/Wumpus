@@ -8,49 +8,49 @@ const ciclo1: Hechizo[] = [
 		id: '1',
 		name: 'test_hechizo',
 		ciclo: 1,
-		mejora: 0
+		dificultad: 20
 	},
 	{
 		id: '2',
 		name: 'Armadura reactiva',
 		ciclo: 1,
-		mejora: 0
+		dificultad: 20
 	},
 	{
 		id: '3',
 		name: 'Torpeza',
 		ciclo: 1,
-		mejora: 0
+		dificultad: 20
 	},
 	{
 		id: '4',
 		name: 'Crear comida',
 		ciclo: 1,
-		mejora: 0
+		dificultad: 20
 	},
 	{
 		id: '5',
 		name: 'Debilidad mental',
 		ciclo: 1,
-		mejora: 0
+		dificultad: 20
 	},
 	{
 		id: '6',
 		name: 'Curación',
 		ciclo: 1,
-		mejora: 0
+		dificultad: 20
 	},
 	{
 		id: '7',
 		name: 'Flecha mágica',
 		ciclo: 1,
-		mejora: 0
+		dificultad: 20
 	},
 	{
 		id: '8',
 		name: 'Debilidad',
 		ciclo: 1,
-		mejora: 0
+		dificultad: 20
 	}
 ];
 

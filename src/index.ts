@@ -32,6 +32,7 @@ KlasaClient.defaultUserSchema.add('class', 'string', { configurable: false })
 	.add('reputation', 'Integer', { 'configurable': false, 'default': 0 })
 	.add('experience', 'Integer', { 'configurable': false, 'default': 0 })
 	.add('level', 'Integer', { 'configurable': false, 'default': 0 })
+	.add('magia', 'Integer', { 'configurable': false, 'default': 0 })
 	.add('clan', 'String', { configurable: false });
 
 KlasaClient.defaultGuildSchema
